@@ -14,31 +14,13 @@ enum CurrentLight {
 struct ContentView: View {
     
     @State private var buttonTitle = "START"
-    
-    @State  private var redCircleView = 0.3
-    @State  private var yellowCircleView = 0.3
-    @State  private var greenCircleView = 0.3
-    
-    @State private var ColorCircle = CurrentLight.red
+    @State private var currentLight = CurrentLight.red
     
     private func nextColorCircle() {
-        
-        let circleIsOn = 1.0
-        let circleIsOff = 0.3
-        
-        switch ColorCircle {
-        case .red:
-            ColorCircle = .yellow
-            greenCircleView = circleIsOff
-            redCircleView = circleIsOn
-        case .yellow:
-            ColorCircle = .green
-            redCircleView = circleIsOff
-            yellowCircleView = circleIsOn
-        case .green:
-            ColorCircle = .red
-            yellowCircleView = circleIsOff
-            greenCircleView = circleIsOn
+        switch currentLight {
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
         }
     }
     
@@ -48,9 +30,9 @@ struct ContentView: View {
             Color(.black)
                 .ignoresSafeArea()
             VStack {
-                ColorCircleView(color: .red, opacity: redCircleView)
-                ColorCircleView(color: .yellow, opacity: yellowCircleView)
-                ColorCircleView(color: .green, opacity: greenCircleView)
+                ColorCircleView(color: .red, opacity: currentLight == .red ? 1 : 0.3)
+                ColorCircleView(color: .yellow, opacity: currentLight == .yellow ? 1 : 0.3)
+                ColorCircleView(color: .green, opacity: currentLight == .green ? 1 : 0.3)
                 
                 Spacer()
                 
@@ -69,5 +51,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+.previewInterfaceOrientation(.portrait)
     }
 }
